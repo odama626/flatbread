@@ -1,15 +1,15 @@
 import { EntryNode, FlatbreadConfig, ConfigResult } from '../types';
 import { schemaComposer } from 'graphql-compose';
 import { composeWithJson } from 'graphql-compose-json';
-import { defaultsDeep, merge, cloneDeep } from 'lodash';
+import { defaultsDeep, merge, cloneDeep } from 'lodash-es';
 import plur from 'plur';
 import { map } from '../utils/map';
 import {
   generateArgsForAllItemQuery,
   generateArgsForManyItemQuery,
   generateArgsForSingleItemQuery,
-} from '../generators/arguments.js';
-import resolveQueryArgs from '../resolvers/arguments.js';
+} from '../generators/arguments';
+import resolveQueryArgs from '../resolvers/arguments';
 import { getFieldOverrides } from '../utils/field-overrides';
 
 interface RootQueries {
