@@ -30,7 +30,7 @@ export async function loadConfig({ cwd = process.cwd() } = {}): Promise<
 > {
   const configFilePath = path.join(cwd, 'flatbread.config.js');
 
-  const configModule: any = null; 
+  const configModule: any = null;
   validateConfigHasExports(
     await import(url.pathToFileURL(configFilePath).href)
   );
