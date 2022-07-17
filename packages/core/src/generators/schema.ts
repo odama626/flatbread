@@ -1,13 +1,6 @@
 import { schemaComposer } from 'graphql-compose';
 import { composeWithJson } from 'graphql-compose-json';
-import {
-  camelCase,
-  cloneDeep,
-  defaultsDeep,
-  mapKeys,
-  mapValues,
-  merge,
-} from 'lodash-es';
+import { cloneDeep, defaultsDeep, merge } from 'lodash-es';
 import plur from 'plur';
 import { VFile } from 'vfile';
 import {
@@ -24,6 +17,7 @@ import {
 } from '../types';
 import { getFieldOverrides } from '../utils/field-overrides';
 import { map } from '../utils/map';
+import transformKeys from '../utils/transformKeys';
 
 interface RootQueries {
   maybeReturnsSingleItem: string[];
@@ -70,14 +64,7 @@ const generateSchema = async (
       getFieldOverrides(collection, config),
       ...nodes.map((node) => merge({}, node, preknownSchemaFragments))
     );
-    return JSON.parse(
-      JSON.stringify(result, (_, value) => {
-        if (typeof value === 'object') {
-          return mapKeys(value, (key) => camelCase(key));
-        }
-        return value;
-      })
-    );
+    return transformKeys(result, config.fieldTransform);
   }
 
   const schemaArray = Object.fromEntries(

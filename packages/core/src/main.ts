@@ -2,18 +2,21 @@ import generateSchema from './generators/schema';
 import { FlatbreadConfig, LoadedFlatbreadConfig, Transformer } from './types';
 
 import { graphql, GraphQLArgs } from 'graphql';
+import { camelCase, defaultsDeep } from 'lodash-es';
 
 export function initializeConfig(config: any): LoadedFlatbreadConfig {
   config.transformer = Array.isArray(config.transformer)
     ? config.transformer
     : [config.transformer];
 
-  config.loaded = {
-    extensions: config.transformer
-      .map((transformer: Transformer) => transformer.extensions || [])
-      .flat(),
-  };
-  return config;
+  return defaultsDeep(config, {
+    loaded: {
+      extensions: config.transformer
+        .map((transformer: Transformer) => transformer.extensions || [])
+        .flat(),
+    },
+    fieldTransform: camelCase,
+  });
 }
 
 export default async function createFlatbread(
