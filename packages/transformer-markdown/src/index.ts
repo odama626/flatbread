@@ -37,7 +37,9 @@ export const parse = (
  * @param config Markdown transformer configuration.
  * @returns Markdown parser, preknown GraphQL schema fragments, and an EntryNode inspector function.
  */
-const transformer: TransformerPlugin = (config: MarkdownTransformerConfig) => {
+const transformer: TransformerPlugin = (
+  config: MarkdownTransformerConfig = {}
+) => {
   return {
     parse: (input: VFile): EntryNode => parse(input, config),
     preknownSchemaFragments: () => ({
@@ -48,6 +50,7 @@ const transformer: TransformerPlugin = (config: MarkdownTransformerConfig) => {
       },
     }),
     inspect: (input: EntryNode) => String(input),
+    extensions: ['.md', '.mdx', '.markdown'],
   };
 };
 
