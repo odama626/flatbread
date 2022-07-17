@@ -1,7 +1,7 @@
-import { FlatbreadConfig, Override } from 'flatbread';
+import { FlatbreadConfig, LoadedFlatbreadConfig, Override } from 'flatbread';
 import { get, set } from 'lodash-es';
 
-export function getFieldOverrides(collection: string, config: FlatbreadConfig) {
+export function getFieldOverrides(collection: string, config: LoadedFlatbreadConfig) {
   let content = config.content.find(
     (content) => content.collection === collection
   );

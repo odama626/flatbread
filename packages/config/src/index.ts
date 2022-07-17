@@ -1,8 +1,8 @@
 import {
   ConfigResult,
   FlatbreadConfig,
+  initializeConfig,
   LoadedFlatbreadConfig,
-  Transformer,
 } from '@flatbread/core';
 import path from 'path';
 import url from 'url';
@@ -30,7 +30,8 @@ export async function loadConfig({ cwd = process.cwd() } = {}): Promise<
 > {
   const configFilePath = path.join(cwd, 'flatbread.config.js');
 
-  const configModule = validateConfigHasExports(
+  const configModule: any = null; 
+  validateConfigHasExports(
     await import(url.pathToFileURL(configFilePath).href)
   );
   const rawConfig = validateConfigStructure(configModule.default);
@@ -97,19 +98,6 @@ export function validateConfigStructure<C extends FlatbreadConfig>(
     );
   }
 
-  return config;
-}
-
-export function initializeConfig(config: any): LoadedFlatbreadConfig {
-  config.transformer = Array.isArray(config.transformer)
-    ? config.transformer
-    : [config.transformer];
-
-  config.loaded = {
-    extensions: config.transformer
-      .map((transformer: Transformer) => transformer.extensions || [])
-      .flat(),
-  };
   return config;
 }
 

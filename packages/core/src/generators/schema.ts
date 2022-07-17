@@ -1,6 +1,13 @@
 import { schemaComposer } from 'graphql-compose';
 import { composeWithJson } from 'graphql-compose-json';
-import { cloneDeep, defaultsDeep, merge } from 'lodash-es';
+import {
+  camelCase,
+  cloneDeep,
+  defaultsDeep,
+  mapKeys,
+  mapValues,
+  merge,
+} from 'lodash-es';
 import plur from 'plur';
 import { VFile } from 'vfile';
 import {
@@ -31,7 +38,7 @@ interface RootQueries {
 const generateSchema = async (
   configResult: ConfigResult<LoadedFlatbreadConfig>
 ) => {
-  const { config } = configResult;
+  const config = configResult.config as LoadedFlatbreadConfig;
   if (!config) {
     throw new Error('Config is not defined');
   }
@@ -56,20 +63,33 @@ const generateSchema = async (
    * Reducing all the nodes forms a more accurate schema in the case of optional fields which may not exist in some content nodes.
    *
    * */
+
+  function generateJSON<T>(collection: string, nodes: T[]) {
+    const result = defaultsDeep(
+      {},
+      getFieldOverrides(collection, config),
+      ...nodes.map((node) => merge({}, node, preknownSchemaFragments))
+    );
+    return JSON.parse(
+      JSON.stringify(result, (_, value) => {
+        if (typeof value === 'object') {
+          return mapKeys(value, (key) => camelCase(key));
+        }
+        return value;
+      })
+    );
+  }
+
   const schemaArray = Object.fromEntries(
     Object.entries(allContentNodesJSON).map(([collection, nodes]) => [
       collection,
-      composeWithJson(
-        collection,
-        defaultsDeep(
-          {},
-          getFieldOverrides(collection, config),
-          ...nodes.map((node) => merge({}, node, preknownSchemaFragments))
-        ),
-        { schemaComposer }
-      ),
+      composeWithJson(collection, generateJSON(collection, nodes), {
+        schemaComposer,
+      }),
     ])
   );
+
+  console.dir({ schemaArray }, { depth: Infinity });
 
   /**
    * @todo potentially able to remove this

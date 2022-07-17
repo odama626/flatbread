@@ -1,11 +1,11 @@
 import test from 'ava';
 import filesystem from '@flatbread/source-filesystem';
 import markdownTransforer from '@flatbread/transformer-markdown';
-import initFlatbread from '../main';
+import createFlatbread from '../main';
 
 test('basic query', async (t) => {
   console.log(process.cwd());
-  const flatbread = await initFlatbread({
+  const flatbread = await createFlatbread({
     source: filesystem(),
     transformer: markdownTransforer({
       markdown: {
