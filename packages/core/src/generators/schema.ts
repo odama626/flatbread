@@ -1,7 +1,7 @@
 import { EntryNode, FlatbreadConfig, ConfigResult } from '../types';
 import { schemaComposer } from 'graphql-compose';
 import { composeWithJson } from 'graphql-compose-json';
-import { defaultsDeep, merge, cloneDeep } from 'lodash-es';
+import { defaultsDeep, merge, cloneDeep } from 'lodash';
 import plur from 'plur';
 import { map } from '../utils/map';
 import {

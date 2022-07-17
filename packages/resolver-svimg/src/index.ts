@@ -1,5 +1,5 @@
-import { createScalar } from 'flatbread';
-import { Queue, generateComponentAttributes } from 'svimg/dist/process.es';
+import { createScalar } from '@flatbread/core';
+import { Queue, generateComponentAttributes } from 'svimg/dist/process';
 
 const SVIMG_TYPE = createScalar(`
 type Svimg {
@@ -27,7 +27,7 @@ interface Config {
   skipPlaceholder?: boolean;
 }
 
-export default function createSvimgResolver(config: Omit<Config, 'src'>) {
+export default function createSvimgResolver(config: Omit<Config, 'src'>): any {
   return {
     type: SVIMG_TYPE,
     resole: (src: string) =>
