@@ -59,12 +59,14 @@ const generateSchema = async (
    * */
 
   function generateJSON<T>(collection: string, nodes: T[]) {
-    const result = defaultsDeep(
-      {},
-      getFieldOverrides(collection, config),
-      ...nodes.map((node) => merge({}, node, preknownSchemaFragments))
+    const shape = transformKeys(
+      defaultsDeep(
+        {},
+        ...nodes.map((node) => merge({}, node, preknownSchemaFragments))
+      ),
+      config.fieldTransform
     );
-    return transformKeys(result, config.fieldTransform);
+    return defaultsDeep({}, getFieldOverrides(collection, config), shape);
   }
 
   const schemaArray = Object.fromEntries(

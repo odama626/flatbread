@@ -4,10 +4,10 @@ import { Queue, generateComponentAttributes } from 'svimg/dist/process';
 const SVIMG_TYPE = createScalar(`
 type Svimg {
   srcset: String
-  srcsetwebp: String;
-  srcsetavif: String;
-  placeholder: String;
-  aspectratio: Float;
+  srcsetwebp: String
+  srcsetavif: String
+  placeholder: String
+  aspectratio: Float
 }`);
 
 const queue = new Queue();
@@ -30,7 +30,7 @@ interface Config {
 export default function createSvimgResolver(config: Omit<Config, 'src'>): any {
   return {
     type: SVIMG_TYPE,
-    resole: (src: string) =>
+    resolve: (src: string) =>
       generateComponentAttributes({ queue, ...config, src }),
   };
 }
