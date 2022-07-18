@@ -1,10 +1,9 @@
 // import transformer from '@flatbread/transformer-yaml';
 import {
-  createScalar,
   defineConfig,
   markdownTransformer,
+  sourceFilesystem,
   yamlTransformer,
-  filesystem,
 } from 'flatbread';
 
 const transformerConfig = {
@@ -14,16 +13,8 @@ const transformerConfig = {
   },
 };
 
-const flatbreadImage = {
-  type: createScalar(`type FlatbreadImage { src: String alt: String }`),
-  resolve: async (source) => ({
-    alt: 'a nice description',
-    src: source,
-  }),
-};
-
 export default defineConfig({
-  source: filesystem(),
+  source: sourceFilesystem(),
   transformer: [markdownTransformer(transformerConfig), yamlTransformer()],
   content: [
     {

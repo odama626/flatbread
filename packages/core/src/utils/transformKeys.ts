@@ -6,8 +6,8 @@ export default function transformKeys(
 ) {
   return JSON.parse(
     JSON.stringify(obj, (_, value) => {
-      if (typeof value === 'object') {
-        return mapKeys(value, (key) => transform(key));
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        return mapKeys(value, (_, key) => transform(key));
       }
       return value;
     })

@@ -2,7 +2,11 @@ import generateSchema from './generators/schema';
 import { FlatbreadConfig, LoadedFlatbreadConfig, Transformer } from './types';
 
 import { graphql, GraphQLArgs } from 'graphql';
-import { camelCase, defaultsDeep } from 'lodash-es';
+import { defaultsDeep } from 'lodash-es';
+
+function camelCase(field: string) {
+  return field.replace(/\s(\w)/g, (_, m) => m.toUpperCase());
+}
 
 export function initializeConfig(config: any): LoadedFlatbreadConfig {
   config.transformer = Array.isArray(config.transformer)

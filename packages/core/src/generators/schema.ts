@@ -76,8 +76,6 @@ const generateSchema = async (
     ])
   );
 
-  console.dir({ schemaArray }, { depth: Infinity });
-
   /**
    * @todo potentially able to remove this
    **/
