@@ -1,4 +1,4 @@
-import { FlatbreadConfig, LoadedFlatbreadConfig, Override } from 'flatbread';
+import { LoadedFlatbreadConfig, Override } from 'flatbread';
 import { get, set } from 'lodash-es';
 
 export function getFieldOverrides(
@@ -21,9 +21,6 @@ export function getFieldOverrides(
     set(fields, path, () => ({
       type: endsWithArray ? `[${override.type}]` : override.type,
       resolve: (source: any) => {
-        if (endsWithArray) {
-          return override.resolve(get(source, getPath), source);
-        }
         return override.resolve(get(source, getPath), source);
       },
     }));

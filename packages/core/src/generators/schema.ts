@@ -58,21 +58,21 @@ const generateSchema = async (
    *
    * */
 
-  function generateJSON<T>(collection: string, nodes: T[]) {
-    const shape = transformKeys(
+  function generateCollection<T>(collection: string, nodes: T[]) {
+    return transformKeys(
       defaultsDeep(
         {},
+        getFieldOverrides(collection, config),
         ...nodes.map((node) => merge({}, node, preknownSchemaFragments))
       ),
       config.fieldTransform
     );
-    return defaultsDeep({}, getFieldOverrides(collection, config), shape);
   }
 
   const schemaArray = Object.fromEntries(
     Object.entries(allContentNodesJSON).map(([collection, nodes]) => [
       collection,
-      composeWithJson(collection, generateJSON(collection, nodes), {
+      composeWithJson(collection, generateCollection(collection, nodes), {
         schemaComposer,
       }),
     ])

@@ -13,9 +13,8 @@ import url from 'url';
  * @param config flatbread instance options
  * @returns flatbread config
  */
-export const defineConfig = (
-  config: LoadedFlatbreadConfig
-): LoadedFlatbreadConfig => config;
+export const defineConfig = (config: FlatbreadConfig): FlatbreadConfig =>
+  config;
 
 /**
  * Pulls the user config from an optionally specified filepath.
